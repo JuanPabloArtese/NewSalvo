@@ -4,7 +4,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 public class GamePlayer {
@@ -28,9 +27,11 @@ public class GamePlayer {
     @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
     private Set<Ship> ships = new HashSet<>();
 
-    @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "salvoGamePlayer", fetch = FetchType.EAGER)
     private Set <Salvo> salvoes = new HashSet<>();
 
+    @OneToMany(mappedBy="scoreGamePlayer", fetch=FetchType.EAGER)
+    private Set<Score> score;
 
     public GamePlayer() {
         this.joinDate = new Date();
@@ -52,11 +53,13 @@ public class GamePlayer {
     }
 
 
+
+    //Getters y setters
     public Set<Salvo> getSalvoes() {
         return salvoes;
     }
 
-    public void setSalvoes(Set<Salvo> salvoes) {
+    public void setSalvos(Set<Salvo> salvoes) {
         this.salvoes = salvoes;
     }
 
@@ -66,6 +69,14 @@ public class GamePlayer {
 
     public Set<Ship> getShips() {
         return ships;
+    }
+
+    public Set<Score> getScore() {
+        return score;
+    }
+
+    public void setScore(Set<Score> score) {
+        this.score = score;
     }
 
     public void setShips(Set<Ship> ships) {

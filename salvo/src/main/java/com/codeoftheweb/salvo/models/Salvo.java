@@ -3,11 +3,9 @@ package com.codeoftheweb.salvo.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Entity
 public class Salvo {
 
     @Id
@@ -16,25 +14,24 @@ public class Salvo {
     private long id;
 
 
-    private int turnNumber;
+    private int turn;
 
     @ElementCollection
     @Column(name="salvoLocation")
-    private List<String> locations = new ArrayList<>();
+    private List<String> salvoLocations = new LinkedList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gamePlayer_id")
-    private GamePlayer gamePlayer;
-
+    private GamePlayer salvoGamePlayer;
 
 
     public Salvo() {
     }
 
-    public Salvo( int turnNumber, List<String> locations, GamePlayer gamePlayer) {
-        this.turnNumber = turnNumber;
-        this.locations = locations;
-        this.gamePlayer=gamePlayer;
+    public Salvo( int turn, List<String> salvoLocations, GamePlayer gamePlayer) {
+        this.turn = turn;
+        this.salvoLocations = (List<String>) salvoLocations;
+        this.salvoGamePlayer=gamePlayer;
     }
 
 
@@ -43,43 +40,44 @@ public class Salvo {
 
         Map <String, Object> dto = new LinkedHashMap<>();
         dto.put("id", this.getId());
-        dto.put("turn", this.getTurnNumber());
-        dto.put("locations", this.getLocations());
+        dto.put("turn", this.getTurn());
+        dto.put("locations", this.getSalvoLocations());
         return dto;
     }
 
-    public void salvoLocations (String location){
-        this.locations.add(location);
+    public void salvoLocations (String salvoLocation){
+        this.salvoLocations.add(salvoLocation);
     }
 
 
+    //Getters y setters
     public long getId() {
         return id;
     }
 
 
-    public int getTurnNumber() {
-        return turnNumber;
+    public int getTurn() {
+        return turn;
     }
 
-    public void setTurnNumber(int turnNumber) {
-        this.turnNumber = turnNumber;
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 
-    public List<String> getLocations() {
-        return locations;
+    public List<String> getSalvoLocations() {
+        return (List<String>) salvoLocations;
     }
 
-    public void setLocations(List<String> locations) {
-        this.locations = locations;
+    public void setLocations(List<String> salvoLocations) {
+        this.salvoLocations = (List<String>) salvoLocations;
     }
 
     public GamePlayer getGamePlayer() {
-        return gamePlayer;
+        return salvoGamePlayer;
     }
 
     public void setGamePlayer(GamePlayer gamePlayer) {
-        this.gamePlayer = gamePlayer;
+        this.salvoGamePlayer = gamePlayer;
     }
 
 }

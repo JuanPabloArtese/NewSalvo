@@ -21,6 +21,7 @@ public class Game {
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
 
+
     public Game (){
     this.creationDate = new Date();
     }
@@ -42,6 +43,7 @@ public class Game {
 
     }
 
+    //Getters y setters
     public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;
     }

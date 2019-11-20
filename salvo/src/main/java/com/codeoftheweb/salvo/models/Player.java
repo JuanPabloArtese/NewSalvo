@@ -1,6 +1,6 @@
 package com.codeoftheweb.salvo.models;
 
-import net.bytebuddy.dynamic.scaffold.MethodGraph;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -20,6 +20,9 @@ public class Player {
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
 
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+    private Set<Score> scores;
+
 
     public Player() {
     }
@@ -37,6 +40,7 @@ public class Player {
         return dto;
     }
 
+    //Getters y setters
     public long getId() {
         return id;
     }
@@ -57,4 +61,11 @@ public class Player {
         this.gamePlayers = gamePlayers;
     }
 
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScore(Set<Score> scores) {
+        this.scores = scores;
+    }
 }

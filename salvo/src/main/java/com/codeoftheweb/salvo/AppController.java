@@ -4,6 +4,7 @@ package com.codeoftheweb.salvo;
 
 import com.codeoftheweb.salvo.models.Game;
 import com.codeoftheweb.salvo.models.GamePlayer;
+import com.codeoftheweb.salvo.models.Score;
 import com.codeoftheweb.salvo.repository.GamePlayerRepository;
 import com.codeoftheweb.salvo.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.cert.CollectionCertStoreParameters;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +44,28 @@ public class AppController {
                 dto.put("created", gamePlayer.getGame().getCreationDate());
                 dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayer1.makeGamePlayerDTO()).collect(Collectors.toList()));
                 dto.put("ships", gamePlayer.getShips().stream().map(ship -> ship.makeShipDTO()).collect(Collectors.toList()));
-                dto.put("salvoes", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayer.getSalvoes().stream().map(salvo -> salvo.makeSalvoDTO()).collect(Collectors.toList())));
-                return dto;
+                dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
+                        .stream().flatMap(gamePlayer1 -> gamePlayer.getSalvoes()
+                                .stream()).map(salvo -> salvo.makeSalvoDTO())
+                        .collect(Collectors.toList()));
+                dto.put("scores", gamePlayer.getGame().getGamePlayers()
+                        .stream().map(gamePlayer1 -> gamePlayer.getPlayer().getScores()
+                                .stream().map(score -> makeScoreDTO())
+                                .collect(Collectors.toList())));
+        return dto;
     }
 
+    @RequestMapping ("/leaderboard")
+    public Map <String, Object> getLeaderboard(){
+        Map <String, Object> dto = new LinkedHashMap<>();
+          Score score;
+          /*dto.put ("id", );
+          dto.put ("score", );
+          dto.put ("player", );
 
+          */
+        return dto;
+
+    }
 
 }

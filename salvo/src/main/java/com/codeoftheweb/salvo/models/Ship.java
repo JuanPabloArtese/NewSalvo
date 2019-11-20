@@ -1,12 +1,12 @@
 package com.codeoftheweb.salvo.models;
 
 
-import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @Entity
 public class Ship {
@@ -16,11 +16,11 @@ public class Ship {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
 
-    private String type;
+    private String typeShip;
 
     @ElementCollection
     @Column(name="location")
-    private List<String> locations = new ArrayList<>();
+    private List<String> locations = new LinkedList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gamePlayer_id")
@@ -30,9 +30,9 @@ public class Ship {
     public Ship() {
     }
 
-    public Ship(String type, List<String> locations, GamePlayer gamePlayer) {
-        this.type = type;
-        this.locations=locations;
+    public Ship(String typeShip, List<String> locations, GamePlayer gamePlayer) {
+        this.typeShip = typeShip;
+        this.locations= locations;
         this.gamePlayer=gamePlayer;
      }
 
@@ -42,7 +42,7 @@ public class Ship {
         Map <String, Object> dto = new LinkedHashMap<>();
         dto.put("id", this.getId());
         dto.put("locations", this.getLocations());
-        dto.put ("type", this.getType());
+        dto.put ("type", this.getTypeShip());
         return dto;
     }
 
@@ -50,6 +50,8 @@ public class Ship {
         this.locations.add(location);
     }
 
+
+    //Getters y setters
     public long getId() {
         return id;
     }
@@ -58,12 +60,12 @@ public class Ship {
         this.locations = locations;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeShip() {
+        return typeShip;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeShip(String typeShip) {
+        this.typeShip = typeShip;
     }
 
     public List<String> getLocations() {
@@ -71,7 +73,7 @@ public class Ship {
     }
 
     public void setLocations(ArrayList<String> locations) {
-        this.locations = new ArrayList<>(locations);
+        this.locations = new LinkedList<>(locations);
     }
 
     public GamePlayer getGamePlayer() {
