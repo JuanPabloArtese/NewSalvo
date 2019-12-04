@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo.models;
 
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,8 +19,12 @@ public class Game {
 
     private Date creationDate;
 
+
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
+
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
+    private Set<Score> scores;
 
     public Game (){
     this.creationDate = new Date();
@@ -38,10 +43,12 @@ public class Game {
                 .stream()
                 .map (gamePlayer -> gamePlayer.makeGamePlayerDTO())
                 .collect(Collectors.toList()));
+        dto.put("scores",   this.getScores().stream().map(score -> score.makeScoreDTO()).collect(Collectors.toList()));
         return dto;
 
     }
 
+    //Getters y setters
     public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;
     }
@@ -50,10 +57,12 @@ public class Game {
         this.gamePlayers = gamePlayers;
     }
 
+    @JsonIgnore
     public long getId() {
         return id;
     }
 
+    @JsonIgnore
     public Date getCreationDate() {
         return creationDate;
     }
@@ -62,5 +71,12 @@ public class Game {
         this.creationDate = creationDate;
     }
 
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
 
 }

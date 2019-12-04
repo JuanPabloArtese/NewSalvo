@@ -1,12 +1,13 @@
 package com.codeoftheweb.salvo.models;
 
 
-import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
+
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @Entity
 public class Ship {
@@ -20,7 +21,7 @@ public class Ship {
 
     @ElementCollection
     @Column(name="location")
-    private List<String> locations = new ArrayList<>();
+    private List<String> shipLocations = new LinkedList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gamePlayer_id")
@@ -30,9 +31,9 @@ public class Ship {
     public Ship() {
     }
 
-    public Ship(String type, List<String> locations, GamePlayer gamePlayer) {
+    public Ship(String type, List<String> shipLocations, GamePlayer gamePlayer) {
         this.type = type;
-        this.locations=locations;
+        this.shipLocations = shipLocations;
         this.gamePlayer=gamePlayer;
      }
 
@@ -41,23 +42,31 @@ public class Ship {
 
         Map <String, Object> dto = new LinkedHashMap<>();
         dto.put("id", this.getId());
-        dto.put("locations", this.getLocations());
+        dto.put("locations", this.getShipLocations());
         dto.put ("type", this.getType());
         return dto;
     }
 
     public void shipLocations (String location){
-        this.locations.add(location);
+        this.shipLocations.add(location);
     }
 
+
+     //----------------------------------------------------------------------------------------------------------------------------------
+
+
+    //Getters y setters
+
+    @JsonIgnore
     public long getId() {
         return id;
     }
 
-    public void setLocations(List<String> locations) {
-        this.locations = locations;
+    public void setShipLocations(List<String> shipLocations) {
+        this.shipLocations = shipLocations;
     }
 
+    @JsonIgnore
     public String getType() {
         return type;
     }
@@ -66,14 +75,16 @@ public class Ship {
         this.type = type;
     }
 
-    public List<String> getLocations() {
-        return locations;
+    @JsonIgnore
+    public List<String> getShipLocations() {
+        return shipLocations;
     }
 
     public void setLocations(ArrayList<String> locations) {
-        this.locations = new ArrayList<>(locations);
+        this.shipLocations = new LinkedList<>(locations);
     }
 
+    @JsonIgnore
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }
