@@ -83,6 +83,7 @@ public class GameController {
         }else{
             salvo.setTurn(gamePlayer.getSalvoes().size()+1);
         }
+
         salvo.setGamePlayer(gamePlayer);
         salvoRepository.save(salvo);
         gamePlayer.addSalvo(salvo);

@@ -35,7 +35,7 @@ public class Salvo {
         this.gamePlayer=gamePlayer;
     }
 
-
+    //--------------------------------------------------------------------------------------------------------------------------------
 
     public Map<String, Object> makeSalvoDTO (){
 
@@ -47,18 +47,6 @@ public class Salvo {
         return dto;
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------------
-
-
-    public void addSalvoLocations (String salvoLocation){
-        this.salvoLocations.add(salvoLocation);
-    }
-
-public void sumarTurno (GamePlayer gamePlayer, int turno){
-
-        setTurn(turno++);
-
-}
     //--------------------------------------------------------------------------------------------------------------------------------
 
     //Getters y setters

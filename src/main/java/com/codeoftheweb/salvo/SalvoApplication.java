@@ -32,23 +32,23 @@ import java.util.*;
 @SpringBootApplication
 public class SalvoApplication extends SpringBootServletInitializer {
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-                return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
     public static void main(String[] args) {
-		SpringApplication.run(SalvoApplication.class, args);
-	}
+        SpringApplication.run(SalvoApplication.class, args);
+    }
 
 
-	@Bean
-	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository, SalvoRepository salvoRepository, ScoreRepository scoreRepository)  {
-		return (args) -> {
+    @Bean
+    public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository, SalvoRepository salvoRepository, ScoreRepository scoreRepository) {
+        return (args) -> {
 
             //Creacion de jugadores
             Player player_jBauer = new Player("jpa@hola.com", passwordEncoder().encode("hola1234"));
-            Player player_obrian = new Player("c.obrian@ctu.gov",passwordEncoder().encode("sdfasdfasdf"));
+            Player player_obrian = new Player("c.obrian@ctu.gov", passwordEncoder().encode("sdfasdfasdf"));
             Player player_kBauer = new Player("kim_bauer@gmail.com", passwordEncoder().encode("sadfasdfasd"));
             Player player_almeida = new Player("t.almeida@ctu.gov", passwordEncoder().encode("sdfasdfadf"));
             Player player_asdfasdda = new Player("admin@admin.com", passwordEncoder().encode("admin"));
@@ -87,7 +87,6 @@ public class SalvoApplication extends SpringBootServletInitializer {
 
             GamePlayer gamePlayer15 = new GamePlayer(player_kBauer, game8); //game8
             GamePlayer gamePlayer16 = new GamePlayer(player_almeida, game8); //game8
-
 
 
             //por consigna quiere que le modifiquemos la hora para que aparezca una hora despues del anterior
@@ -144,7 +143,6 @@ public class SalvoApplication extends SpringBootServletInitializer {
             Ship ship27 = new Ship("PATROLBOAT", new ArrayList<>(Arrays.asList("G6", "H6")), gamePlayer16);
 
 
-
             //creacion de salvoes
             //salvoes game 1
             Salvo salvo_GamePlayer1_Turn1 = new Salvo(1, new ArrayList<>(Arrays.asList("B5", "C5", "F1")), gamePlayer1);
@@ -178,20 +176,20 @@ public class SalvoApplication extends SpringBootServletInitializer {
             Salvo salvo_GamePlayer10_Turn3 = new Salvo(3, new ArrayList<>(Arrays.asList("H1", "H8")), gamePlayer10);
 
 
-            Score score1 = new Score(new Date(), 1, game1,player_jBauer);
-            Score score2 = new Score(new Date(), 0, game1,player_obrian);
+            Score score1 = new Score(new Date(), 1, game1, player_jBauer);
+            Score score2 = new Score(new Date(), 0, game1, player_obrian);
 
-            Score score3 = new Score(new Date(), 0.5, game2,player_jBauer);
-            Score score4 = new Score(new Date(), 0.5, game2,player_obrian);
+            Score score3 = new Score(new Date(), 0.5, game2, player_jBauer);
+            Score score4 = new Score(new Date(), 0.5, game2, player_obrian);
 
-            Score score5 = new Score(new Date(), 1, game3,player_obrian);
-            Score score6 = new Score(new Date(), 0, game3,player_almeida);
+            Score score5 = new Score(new Date(), 1, game3, player_obrian);
+            Score score6 = new Score(new Date(), 0, game3, player_almeida);
 
-            Score score7 = new Score(new Date(), 0, game4,player_obrian);
-            Score score8 = new Score(new Date(), 1, game4,player_jBauer);
+            Score score7 = new Score(new Date(), 0, game4, player_obrian);
+            Score score8 = new Score(new Date(), 1, game4, player_jBauer);
 
-            Score score9 = new Score(new Date(), 1, game5,player_almeida);
-            Score score10 = new Score(new Date(), 0, game5,player_jBauer);
+            Score score9 = new Score(new Date(), 1, game5, player_almeida);
+            Score score10 = new Score(new Date(), 0, game5, player_jBauer);
 
             //Score score11 = new Score (new Date(), 0.5, gamePlayer11, player_kBauer);
             //Score score12 = new Score (new Date(), 0.5, gamePlayer12, );
@@ -200,11 +198,8 @@ public class SalvoApplication extends SpringBootServletInitializer {
             //Score score14 = new Score (new Date(), 0.5, gamePlayer14, );
 
 
-            Score score15 = new Score (new Date(), 1, game6, player_kBauer);
-            Score score16 = new Score (new Date(), 0, game6, player_almeida);
-
-
-
+            Score score15 = new Score(new Date(), 1, game6, player_kBauer);
+            Score score16 = new Score(new Date(), 0, game6, player_almeida);
 
 
             //Creo listas para enviar toda la informacion en menos mensajes.
@@ -232,7 +227,6 @@ public class SalvoApplication extends SpringBootServletInitializer {
             shipList.addAll(new ArrayList<>(Arrays.asList(ship18, ship19, ship20, ship21))); //game 5
 //            shipList.addAll(new ArrayList<>(Arrays.asList(ship22, ship23))); //game 6
             shipList.addAll(new ArrayList<>(Arrays.asList(ship24, ship25, ship26, ship27))); //game 8
-
 
 
             List<Salvo> salvoList = new LinkedList<>();
@@ -277,78 +271,76 @@ public class SalvoApplication extends SpringBootServletInitializer {
 
 }
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------
 
 @Configuration
 class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
 
-        @Autowired
-       PlayerRepository playerRepository;
+    @Autowired
+    PlayerRepository playerRepository;
 
-        @Override
-        public void init(AuthenticationManagerBuilder auth) throws Exception {
-                auth.userDetailsService(inputName-> {
-                        Player player = playerRepository.findByEmail(inputName).orElse(null);
-                        if (player != null) {
-                                return new User(player.getEmail(), player.getPassword(),
-                                        AuthorityUtils.createAuthorityList("USER"));
-                        } else {
-                                throw new UsernameNotFoundException("Unknown user: " + inputName);
-                        }
-                });
-        }
-        }
+    @Override
+    public void init(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(inputName -> {
+            Player player = playerRepository.findByEmail(inputName).orElse(null);
+            if (player != null) {
+                return new User(player.getEmail(), player.getPassword(),
+                        AuthorityUtils.createAuthorityList("USER"));
+            } else {
+                throw new UsernameNotFoundException("Unknown user: " + inputName);
+            }
+        });
+    }
+}
+//--------------------------------------------------------------------------------------------------------------------------------
+@Configuration
+@EnableWebSecurity
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
 
-        @Configuration
-        @EnableWebSecurity
-        class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-                @Override
-                protected void configure(HttpSecurity http) throws Exception {
-                        http.authorizeRequests()
-                                    .antMatchers("/**").permitAll();
-//                                .antMatchers("/web/**").permitAll()
-////                                .antMatchers("/web/**").permitAll()
-//                                .antMatchers("/api/games").permitAll()
-//                                .antMatchers("/api/players").permitAll()
-//                                .antMatchers("/api/**").hasAuthority("USER")
-////                                .antMatchers("/api/players","/api/login","/api/logout").permitAll()
-//                                .antMatchers("/rest").denyAll();
-////                                .antMatchers("/web/games.html").permitAll()
-////                                .antMatchers("/web/game.html?gp=*","/api/game_view/*").hasAuthority("USER")
-////                                .antMatchers("/rest/**").permitAll()
-////                                .anyRequest().denyAll();
+                .antMatchers("/web/**").permitAll()
+                .antMatchers("/api/games").permitAll()
+                .antMatchers("/api/players").permitAll()
+                .antMatchers("/api/**").hasAuthority("USER")
+                .antMatchers("/rest").denyAll()
+                .antMatchers("/web/games.html").permitAll()
+                .antMatchers("/web/game.html?gp=*", "/api/game_view/*").hasAuthority("USER")
+                .anyRequest().denyAll();
 //-------------------------------------------------------------------------------------------------------
-                        http.formLogin()
-                                .usernameParameter("name")
-                                .passwordParameter("pwd")
-                                .loginPage("/api/login");
+        http.formLogin()
+                .usernameParameter("name")
+                .passwordParameter("pwd")
+                .loginPage("/api/login");
 
-                        http.logout().logoutUrl("/api/logout");
+        http.logout().logoutUrl("/api/logout");
 //--------------------------------------------------------------------------------------------------------
 
-                        // turn off checking for CSRF tokens
-                        http.csrf().disable();
+        // turn off checking for CSRF tokens
+        http.csrf().disable();
 
-                        // if user is not authenticated, just send an authentication failure response
-                        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+        // if user is not authenticated, just send an authentication failure response
+        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-                        // if login is successful, just clear the flags asking for authentication
-                        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+        // if login is successful, just clear the flags asking for authentication
+        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
 
-                        // if login fails, just send an authentication failure response
-                        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+        // if login fails, just send an authentication failure response
+        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-                        // if logout is successful, just send a success response
-                        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-                }
-                //--------------------------------------------------------------------------------------------------------------------------------
+        // if logout is successful, just send a success response
+        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+    }
 
-                private void clearAuthenticationAttributes(HttpServletRequest request) {
-                        HttpSession session = request.getSession(false);
-                        if (session != null) {
-                                session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-                        }
-                }
-                }
+//--------------------------------------------------------------------------------------------------------------------------------
+
+    private void clearAuthenticationAttributes(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        }
+    }
+}
 

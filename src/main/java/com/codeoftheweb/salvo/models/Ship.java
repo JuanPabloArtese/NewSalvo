@@ -48,9 +48,6 @@ public class Ship {
         return dto;
     }
 
-    public void shipLocations (String location){
-        this.shipLocations.add(location);
-    }
 
      //----------------------------------------------------------------------------------------------------------------------------------
 

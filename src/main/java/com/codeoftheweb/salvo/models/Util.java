@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Util {
-    @Autowired
-    ScoreRepository scoreRepository;
+
 
     public static boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
@@ -42,18 +41,14 @@ public class Util {
             return "WAIT";
         } else {
 
-            //el primero en jugar, el primer turno
             if (gamePlayerSelf.getSalvoes().isEmpty()) {
                 return "PLAY";
             }
-            //ya jugue mi primer turno pero mi oponente todavia
+
             if (!gamePlayerSelf.getSalvoes().isEmpty() && gamePlayerOpponent.getSalvoes().isEmpty()) {
                 return "WAIT";
             }
-            //el segundo en jugar, el primer turno
-//            if (gamePlayerSelf.getSalvoes().isEmpty() && gamePlayerSelf.getId() > gamePlayerOpponent.getId() && gamePlayerOpponent.getSalvoes().isEmpty()) {
-//                return "WAIT";
-//            }
+
             if (gamePlayerSelf.getSalvoes().isEmpty() && !gamePlayerOpponent.getSalvoes().isEmpty()) {
                 return "PLAY";
             }

@@ -41,21 +41,21 @@ public class AppController {
     public ResponseEntity<Map<String, Object>> getGameView(@PathVariable (name = "gpid") long gpid, Authentication authentication) {
 
         if (Util.isGuest(authentication)){
-            return new ResponseEntity<>(Util.makeMap("error", "Paso algo6"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Util.makeMap("error", "Jugador no logueado"), HttpStatus.UNAUTHORIZED);
         }
         Player playerLogueado = playerRepository.findByEmail(authentication.getName()).orElse(null);
         GamePlayer gamePlayer = gamePlayerRepository.findById(gpid).orElse(null);
 
         if (playerLogueado==null){
-        return new ResponseEntity<>(Util.makeMap("error","paso algo5"), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(Util.makeMap("error","No esta autorizado para ver la partida"), HttpStatus.UNAUTHORIZED);
         }
 
         if (gamePlayer==null){
-            return new ResponseEntity<>(Util.makeMap("error","paso algo7"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Util.makeMap("error","Gameplayer no valido"), HttpStatus.UNAUTHORIZED);
         }
 
         if (gamePlayer.getPlayer().getId() != playerLogueado.getId()){
-        return new ResponseEntity<>(Util.makeMap("error","paso algo4"),HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(Util.makeMap("error","No puede acceder a esta informacion"),HttpStatus.UNAUTHORIZED);
         }
 
         Map<String, Object> dto = new LinkedHashMap<>();
@@ -93,8 +93,6 @@ public class AppController {
 
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
-
-
 
 }
 
