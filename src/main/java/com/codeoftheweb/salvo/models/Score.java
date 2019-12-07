@@ -32,22 +32,25 @@ public class Score {
     public Score() {this.finishDate = new Date();
     }
 
-    public Score(double score, Game game, Player player) {
+    public Score(Date finishDate, double score, Game game, Player player) {
         this.finishDate = new Date();
         this.score=score;
         this.game = game;
         this.player = player;
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------
+
     public Map<String, Object> makeScoreDTO (){
 
         Map <String, Object> dto = new LinkedHashMap<>();
-        dto.put("id", this.getId());
+        dto.put("finishDate", this.finishDate);
         dto.put("score", this.getScore());
         dto.put("player", this.getPlayer().getId());
         return dto;
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------
 
 //Getters y setters
 

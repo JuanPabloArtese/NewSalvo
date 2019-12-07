@@ -4,10 +4,7 @@ import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -21,7 +18,7 @@ public class Game {
 
 
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
-    private Set<GamePlayer> gamePlayers;
+    private List<GamePlayer> gamePlayers;
 
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     private Set<Score> scores;
@@ -34,6 +31,8 @@ public class Game {
         this.creationDate = creationDate;
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------
+
     public Map<String, Object> makeGameDTO(){
 
         Map<String, Object> dto = new LinkedHashMap<>();
@@ -43,17 +42,22 @@ public class Game {
                 .stream()
                 .map (gamePlayer -> gamePlayer.makeGamePlayerDTO())
                 .collect(Collectors.toList()));
-        dto.put("scores",   this.getScores().stream().map(score -> score.makeScoreDTO()).collect(Collectors.toList()));
+        dto.put("scores", this.getScores()
+                .stream()
+                .map(score -> score.makeScoreDTO())
+                .collect(Collectors.toList()));
         return dto;
 
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------
+
     //Getters y setters
-    public Set<GamePlayer> getGamePlayers() {
+    public List<GamePlayer> getGamePlayers() {
         return gamePlayers;
     }
 
-    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
+    public void setGamePlayers(List<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
 

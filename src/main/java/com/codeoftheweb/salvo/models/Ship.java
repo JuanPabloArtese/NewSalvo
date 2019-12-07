@@ -37,6 +37,7 @@ public class Ship {
         this.gamePlayer=gamePlayer;
      }
 
+    //--------------------------------------------------------------------------------------------------------------------------------
 
     public Map <String, Object> makeShipDTO (){
 
@@ -51,9 +52,7 @@ public class Ship {
         this.shipLocations.add(location);
     }
 
-
      //----------------------------------------------------------------------------------------------------------------------------------
-
 
     //Getters y setters
 
@@ -80,7 +79,7 @@ public class Ship {
         return shipLocations;
     }
 
-    public void setLocations(ArrayList<String> locations) {
+    public void setLocations(List<String> locations) {
         this.shipLocations = new LinkedList<>(locations);
     }
 
@@ -91,6 +90,10 @@ public class Ship {
 
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
+    }
+
+    public long getShipLength (Ship ship){
+        return this.getShipLocations().size();
     }
 
 }

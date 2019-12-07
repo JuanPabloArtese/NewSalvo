@@ -38,7 +38,7 @@ public class Player {
         this.password = password;
     }
 
-
+    //--------------------------------------------------------------------------------------------------------------------------------
 
     public Map<String, Object> makePlayerDTO() {
         Map<String, Object> dto = new LinkedHashMap<>();
@@ -47,8 +47,7 @@ public class Player {
         return dto;
     }
 
-
-
+    //--------------------------------------------------------------------------------------------------------------------------------
 
     //Getters y setters
     @JsonIgnore

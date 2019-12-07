@@ -178,30 +178,30 @@ public class SalvoApplication extends SpringBootServletInitializer {
             Salvo salvo_GamePlayer10_Turn3 = new Salvo(3, new ArrayList<>(Arrays.asList("H1", "H8")), gamePlayer10);
 
 
-            Score score1 = new Score(1, game1,player_jBauer);
-            Score score2 = new Score(0, game1,player_obrian);
+            Score score1 = new Score(new Date(), 1, game1,player_jBauer);
+            Score score2 = new Score(new Date(), 0, game1,player_obrian);
 
-            Score score3 = new Score(0.5, game2,player_jBauer);
-            Score score4 = new Score(0.5, game2,player_obrian);
+            Score score3 = new Score(new Date(), 0.5, game2,player_jBauer);
+            Score score4 = new Score(new Date(), 0.5, game2,player_obrian);
 
-            Score score5 = new Score(1, game3,player_obrian);
-            Score score6 = new Score(0, game3,player_almeida);
+            Score score5 = new Score(new Date(), 1, game3,player_obrian);
+            Score score6 = new Score(new Date(), 0, game3,player_almeida);
 
-            Score score7 = new Score(0, game4,player_obrian);
-            Score score8 = new Score(1, game4,player_jBauer);
+            Score score7 = new Score(new Date(), 0, game4,player_obrian);
+            Score score8 = new Score(new Date(), 1, game4,player_jBauer);
 
-            Score score9 = new Score(1, game5,player_almeida);
-            Score score10 = new Score(0, game5,player_jBauer);
+            Score score9 = new Score(new Date(), 1, game5,player_almeida);
+            Score score10 = new Score(new Date(), 0, game5,player_jBauer);
 
-            //Score score11 = new Score (0.5, gamePlayer11, player_kBauer);
-            //Score score12 = new Score (0.5, gamePlayer12, );
+            //Score score11 = new Score (new Date(), 0.5, gamePlayer11, player_kBauer);
+            //Score score12 = new Score (new Date(), 0.5, gamePlayer12, );
 
-            //Score score13 = new Score (0.5, gamePlayer13, player_almeida );
-            //Score score14 = new Score (0.5, gamePlayer14, );
+            //Score score13 = new Score (new Date(), 0.5, gamePlayer13, player_almeida );
+            //Score score14 = new Score (new Date(), 0.5, gamePlayer14, );
 
 
-            Score score15 = new Score (1, game6, player_kBauer);
-            Score score16 = new Score (0, game6, player_almeida);
+            Score score15 = new Score (new Date(), 1, game6, player_kBauer);
+            Score score16 = new Score (new Date(), 0, game6, player_almeida);
 
 
 
@@ -270,7 +270,7 @@ public class SalvoApplication extends SpringBootServletInitializer {
             shipRepository.saveAll(shipList);
             salvoRepository.saveAll(salvoList);
             scoreRepository.saveAll(scoreList);
-            scoreRepository.saveAll(Arrays.asList(score1, score2, score3));
+//            scoreRepository.saveAll(Arrays.asList(score1, score2, score3));
 
         };
     }
@@ -342,6 +342,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
                         // if logout is successful, just send a success response
                         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
                 }
+                //--------------------------------------------------------------------------------------------------------------------------------
 
                 private void clearAuthenticationAttributes(HttpServletRequest request) {
                         HttpSession session = request.getSession(false);

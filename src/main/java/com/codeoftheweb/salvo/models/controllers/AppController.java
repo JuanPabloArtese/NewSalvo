@@ -60,13 +60,14 @@ public class AppController {
 
         Map<String, Object> dto = new LinkedHashMap<>();
         Map<String, Object> hits = new LinkedHashMap<>();
+        String state = Util.getState(gamePlayer, gamePlayer.getOpponent());
 
         hits.put("self", new ArrayList<>());
         hits.put("opponent", new ArrayList<>());
 
         dto.put("id", gamePlayer.getGame().getId());
         dto.put("created", gamePlayer.getGame().getCreationDate());
-        dto.put("gameState", getState(gamePlayer, gamePlayer.getOpponent()));
+        dto.put("gameState", state);
         dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
                 .stream().map(gamePlayer1 -> gamePlayer1.makeGamePlayerDTO())
                 .collect(Collectors.toList()));
@@ -74,15 +75,12 @@ public class AppController {
                 .stream().map(ship -> ship.makeShipDTO())
                 .collect(Collectors.toList()));
         dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
-                .stream().flatMap(gamePlayer1 -> gamePlayer1.getSalvoes() //todo
+                .stream().flatMap(gamePlayer1 -> gamePlayer1.getSalvoes()
                         .stream()).map(salvo -> salvo.makeSalvoDTO())
                 .collect(Collectors.toList()));
-        dto.put("scores", gamePlayer.getGame().getGamePlayers()
-                        .stream().map(gamePlayer1 -> gamePlayer1.getScore()));
 
-
-        if( getState(gamePlayer, gamePlayer.getOpponent()).equalsIgnoreCase("PLACESHIPS") ||
-                getState(gamePlayer, gamePlayer.getOpponent()).equalsIgnoreCase("WAITINGFOROP") ||
+        if( state.equalsIgnoreCase("PLACESHIPS") ||
+                state.equalsIgnoreCase("WAITINGFOROP") ||
                 gamePlayer.getOpponent().getSalvoes() == null
         )    {
             hits.put("self", new ArrayList<>());
@@ -93,31 +91,12 @@ public class AppController {
         }
 
 
-        //dto.put("hits", gamePlayer.makeHitsDTO(gamePlayer, gamePlayer.getOpponent()));
-
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
 
-    // ------------------------------------------------------------------------------------------------------------------------------------------
-
-    public String getState (GamePlayer gamePlayerSelf, GamePlayer gamePlayerOpponent){
-        if(gamePlayerSelf.getShips().isEmpty()){
-            return "PLACESHIPS";
-        }
-
-        if(gamePlayerSelf.getGame().getGamePlayers().size()==1){
-            return "WAITINGFOROPP";
-        }
-
-        if (gamePlayerSelf.getId()<gamePlayerOpponent.getId()){
-            return "PLAY";
-        }
-        if (gamePlayerSelf.getId()>gamePlayerOpponent.getId()){
-
-            return "WAIT";
-        }
-        return "LOST";
-}
 
 
 }
+
+
+

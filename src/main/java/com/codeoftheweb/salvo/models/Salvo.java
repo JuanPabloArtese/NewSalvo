@@ -47,12 +47,19 @@ public class Salvo {
         return dto;
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------------
 
 
     public void addSalvoLocations (String salvoLocation){
         this.salvoLocations.add(salvoLocation);
     }
 
+public void sumarTurno (GamePlayer gamePlayer, int turno){
+
+        setTurn(turno++);
+
+}
+    //--------------------------------------------------------------------------------------------------------------------------------
 
     //Getters y setters
 
@@ -80,8 +87,6 @@ public class Salvo {
     }
 
     @JsonIgnore
-
-
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }
